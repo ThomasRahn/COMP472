@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 
@@ -59,8 +60,8 @@ public class WordUtilities {
 		while(it.hasNext()){
 			Word w = it.next();
 			
-			double spamSmooth = w.getSpamSmooth() / (totalSpam + (0.5 * words.size()));
-			double hamSmooth = w.getHamSmooth() / (totalHam + (0.5 * words.size()));
+			BigDecimal spamSmooth = new BigDecimal(w.getSpamSmooth() / (totalSpam + (0.5 * words.size())));
+			BigDecimal hamSmooth = new BigDecimal(w.getHamSmooth() / (totalHam + (0.5 * words.size())));
 			
 			content += counter + 
 					delimeter + w.getWord() + 
