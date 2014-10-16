@@ -14,7 +14,7 @@ public class Directory
 	 * @param path The absolute path to the target directory.
 	 * @throws Exception Thrown when the specified path does not lead to a valid directory.
 	 */
-	public void Directory(String path) throws Exception
+	public Directory(String path) throws Exception
 	{
 		this.file = this.makeFileInstance(path);
 	}
@@ -22,7 +22,7 @@ public class Directory
 	/**
 	 * @param file An instance of `java.io.File` to use.
 	 */
-	public void Directory(File file)
+	public Directory(File file)
 	{
 		this.file = file;
 	}
