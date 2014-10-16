@@ -9,7 +9,11 @@ import java.util.List;
 
 public class WordUtilities {
 	
+	public static int totalSpam = 0;
+	public static int totalHam = 0;
+	
 	private static String delimeter = "   ";
+	
 	public static void SaveWords(List<Word> words){
 		try {
 			 
@@ -44,12 +48,16 @@ public class WordUtilities {
 		int counter = 1;
 		while(it.hasNext()){
 			Word w = it.next();
+			
+			double spamSmooth = w.getSpamSmooth() / (totalSpam + (0.5 * words.size()));
+			double hamSmooth = w.getHamSmooth() / (totalHam + (0.5 * words.size()));
+			
 			content += counter + 
 					delimeter + w.getWord() + 
 					delimeter + w.getHamFrequency() + 
-					delimeter + w.getHamSmooth() + 
+					delimeter + hamSmooth + 
 					delimeter + w.getSpamFrequency() + 
-					delimeter + w.getSpamSmooth() + "\n";
+					delimeter + spamSmooth + "\n";
 			
 			counter++;
 		}
