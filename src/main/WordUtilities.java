@@ -14,6 +14,12 @@ public class WordUtilities {
 	
 	private static String delimeter = "   ";
 	
+	/*
+	 * This method accepts a list of words and will save them into a file with their corresponding values. (Frequency and probability)
+	 * 
+	 * @param List<Word>	List of words to be saved into a file
+	 * 
+	 */
 	public static void SaveWords(List<Word> words){
 		try {
 			 
@@ -41,6 +47,10 @@ public class WordUtilities {
 	
 	/*
 	 * This method will accept a List of words and generate a string.
+	 * 
+	 * @param List<Word> A list of words to be converted to a string
+	 * 
+	 * @return String the string generated from a list of words
 	 */
 	private static String generateWordString(List<Word> words){
 		String content = "";
