@@ -10,8 +10,8 @@ import java.util.List;
 
 public class WordUtilities {
 	
-	public static int totalSpam = 0;
-	public static int totalHam = 0;
+	private static int totalSpam = 0;
+	private static int totalHam = 0;
 	
 	private static String delimeter = "   ";
 	
@@ -75,5 +75,12 @@ public class WordUtilities {
 		
 		return content;
 		
+	}
+	
+	public static void SetTotals(int spam, int ham){
+		if(spam > 0 && ham > 0){
+			totalSpam = spam;
+			totalHam = ham;
+		}
 	}
 }
