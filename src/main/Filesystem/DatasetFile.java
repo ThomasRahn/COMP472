@@ -2,13 +2,11 @@ package main.Filesystem;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * Created by Alan Ly on 16-Oct-2014.
@@ -25,7 +23,7 @@ public class DatasetFile
 	 */
 	public DatasetFile(File file) throws Exception
 	{
-		this.loadFileInstance(file);
+		this.setFileInstance(file);
 	}
 
 	public Path getPath()
@@ -33,20 +31,19 @@ public class DatasetFile
 		return Paths.get(this.file.getAbsolutePath());
 	}
 
-	public Stream<String> getLines() throws IOException
-	{
-		return Files.lines(this.getPath(), StandardCharsets.US_ASCII);
-	}
-
-	public Map<String, Integer> getWords()
+	public Map<String, Integer> getWords() throws IOException
 	{
 		if (this.wordsAndCounts != null) return this.wordsAndCounts;
 
 		this.wordsAndCounts = new HashMap<String, Integer>();
 
-		/**
-		 * @todo Collect all lines into a single string instance.
-		 */
+	
+		   String content = new String(Files.readAllBytes(getPath()));
+		   //System.out.println(content);
+		   
+		   content = content.replaceAll("[.,_:;+]", "");
+		   content = content.replaceAll("([a-z]*\\d+[a-z]*)", "");
+		   System.out.println(content);
 
 		/**
 		 * @todo Filter out words in line via regular expression.
