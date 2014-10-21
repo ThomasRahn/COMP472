@@ -2,7 +2,9 @@ package main;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import main.Filesystem.DatasetFile;
 import main.Filesystem.Directory;
@@ -17,7 +19,13 @@ public class Main {
 			File[] files = spamDirectory.getFiles();
 		
 			DatasetFile dataset = new DatasetFile(files[0]);
-			dataset.getWords();
+			Map<String, Integer> hash = dataset.getWords();
+			Iterator it = hash.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry pairs = (Map.Entry)it.next();
+		        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+		    }
+			
 				
 		} catch (Exception e) {
 		

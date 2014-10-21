@@ -37,18 +37,27 @@ public class DatasetFile
 
 		this.wordsAndCounts = new HashMap<String, Integer>();
 
-	
-		   String content = new String(Files.readAllBytes(getPath()));
-		   //System.out.println(content);
+		String content = new String(Files.readAllBytes(getPath()));
+	   
+		//remove punctuation
+		content = content.replaceAll("[.,_:;+]", "");
 		   
-		   content = content.replaceAll("[.,_:;+]", "");
-		   content = content.replaceAll("([a-z]*\\d+[a-z]*)", "");
-		   System.out.println(content);
-
-		/**
-		 * @todo Filter out words in line via regular expression.
-		 */
-
+		//remove all words with a number in it.
+		content = content.replaceAll("([a-z]*\\d+[a-z]*)", "");
+		   
+		//remove all words with 3 characters or less.
+		content = content.replaceAll("\\b\\w{1,3}\\b", "");
+		   
+		//testing
+		System.out.println(content);
+		
+		String[] words = content.split(" ");
+		for(int i = 0; i < words.length; i++){
+			String word = words[i].trim();
+			int count = this.wordsAndCounts.get(word) == null ? 0 :  this.wordsAndCounts.get(word); 
+			this.wordsAndCounts.put(word, count + 1);
+		}
+		  
 		/**
 		 * @todo For each word in the string, keep a tally of how many words
 		 * there are, plus keep a count of how many instances of each unique
