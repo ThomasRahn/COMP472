@@ -61,9 +61,10 @@ public class WordUtilities {
 		int counter = 1;
 		while(it.hasNext()){
 			Word w = it.next();
-			System.out.println("Generating information for: " + w.getWord());
-			BigDecimal spamSmooth = new BigDecimal(w.getSpamSmooth() / (totalSpam + (0.5 * words.size())));
-			BigDecimal hamSmooth = new BigDecimal(w.getHamSmooth() / (totalHam + (0.5 * words.size())));
+			System.out.println(counter + " / " + words.size());
+			
+			double spamSmooth = w.getSpamSmooth() / (totalSpam + (0.5 * words.size()));
+			double hamSmooth = w.getHamSmooth() / (totalHam + (0.5 * words.size()));
 			
 			content += counter + 
 					delimeter + w.getWord() + 
@@ -93,6 +94,7 @@ public class WordUtilities {
 	
 	
 	/**
+	 * This method accepts two Maps<String,Integer> and will create Word objects according to the data inside.
 	 * 
 	 * @param spam all the words found in the spam files and their frequency
 	 * @param ham all the words found in the ham files and their frequency
@@ -103,19 +105,21 @@ public class WordUtilities {
 		List<Word> words = new ArrayList<Word>();
 		Iterator<String> it = spam.keySet().iterator();
 		while(it.hasNext()){
-			//create the word
 			String element = it.next();
 			Word word = new Word(element);
+			
 			word.setSpamFrequency(spam.get(element));
 			int hamFreq = ham.get(element) == null ? 0 : ham.get(element);
 			word.setHamFrequency(hamFreq);
 			ham.remove(element);
+			
+			//Add the word to the list.
 			words.add(word);
 		}
 		
 		Iterator<String> hamIterator = ham.keySet().iterator();
-		while(it.hasNext()){
-			String element = it.next();
+		while(hamIterator.hasNext()){
+			String element = hamIterator.next();
 			Word word = new Word(element,0,ham.get(element));
 			words.add(word);
 		}
