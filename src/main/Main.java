@@ -2,6 +2,7 @@ package main;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,38 +14,50 @@ public class Main {
 
 	public static void main(String[] args) {
 		System.out.println("hi");
-		//Read all files in ham
+		// Read all files in ham
+		int spamTotal = 0;
+		Map<String, Integer> spamWords = new HashMap<String, Integer>();
+		
+		int hamTotal = 0;
+		Map<String, Integer> hamWords = new HashMap<String, Integer>();
+
 		try {
+			// SPAM SECTION
 			Directory spamDirectory = new Directory("words/spam_2");
-			File[] files = spamDirectory.getFiles();
-		
-			DatasetFile dataset = new DatasetFile(files[0]);
-			Map<String, Integer> hash = dataset.getWords();
-			Iterator it = hash.entrySet().iterator();
-		    while (it.hasNext()) {
-		        Map.Entry pairs = (Map.Entry)it.next();
-		        System.out.println(pairs.getKey() + " = " + pairs.getValue());
-		    }
+			File[] spamFiles = spamDirectory.getFiles();
 			
-				
-		} catch (Exception e) {
+			System.out.println("Reading spam files");
+			for (int i = 0; i < spamFiles.length; i++) {
+				DatasetFile dataset = new DatasetFile(spamFiles[i], spamWords);
+				spamWords = dataset.getWords();
+				spamTotal += dataset.GetNumberOfWords();
+			}
+
+			// HAM SECTION
+			Directory hamDirectory = new Directory("words/easy_ham_2");
+			File[] hamFiles = hamDirectory.getFiles();
+			
+			System.out.println("Reading ham files");
+			for (int i = 0; i < hamFiles.length; i++) {
+				DatasetFile dataset = new DatasetFile(hamFiles[i], hamWords);
+				hamWords = dataset.getWords();
+				hamTotal += dataset.GetNumberOfWords();
+			}
+
 		
+
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
+
+		// write to file
+		WordUtilities.SetTotals(spamTotal, hamTotal);
 		
+		//Get the list of words
+		List<Word> words = WordUtilities.CreateWordList(spamWords, hamWords);
 		
-		
-		//Read all files in spam
-		
-		//write to file
-		WordUtilities.SetTotals(12,6);
-		Word w = new Word("Test",5,5);
-		Word w2 = new Word("Test2", 7,1);
-		List<Word> words = new ArrayList<Word>();
-		words.add(w);
-		words.add(w2);
-		
-		//Saves all the words into a text file.
+		// Saves all the words into a text file.
 		WordUtilities.SaveWords(words);
 	}
 }

@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class WordUtilities {
 	
@@ -15,7 +17,7 @@ public class WordUtilities {
 	
 	private static String delimeter = "   ";
 	
-	/*
+	/**
 	 * This method accepts a list of words and will save them into a file with their corresponding values. (Frequency and probability)
 	 * 
 	 * @param List<Word>	List of words to be saved into a file
@@ -46,7 +48,7 @@ public class WordUtilities {
 		}
 	}
 	
-	/*
+	/**
 	 * This method will accept a List of words and generate a string.
 	 * 
 	 * @param List<Word> A list of words to be converted to a string
@@ -59,7 +61,7 @@ public class WordUtilities {
 		int counter = 1;
 		while(it.hasNext()){
 			Word w = it.next();
-			
+			System.out.println("Generating information for: " + w.getWord());
 			BigDecimal spamSmooth = new BigDecimal(w.getSpamSmooth() / (totalSpam + (0.5 * words.size())));
 			BigDecimal hamSmooth = new BigDecimal(w.getHamSmooth() / (totalHam + (0.5 * words.size())));
 			
@@ -76,11 +78,49 @@ public class WordUtilities {
 		return content;
 		
 	}
-	
+	/**
+	 * Set the total number of spam words and total number of ham words
+	 * 
+	 * @param spam total number of spam words
+	 * @param ham total number of ham words
+	 */
 	public static void SetTotals(int spam, int ham){
 		if(spam > 0 && ham > 0){
 			totalSpam = spam;
 			totalHam = ham;
 		}
+	}
+	
+	
+	/**
+	 * 
+	 * @param spam all the words found in the spam files and their frequency
+	 * @param ham all the words found in the ham files and their frequency
+	 * @return the list of words created from the two maps
+	 */
+	public static List<Word> CreateWordList(Map<String,Integer> spam, Map<String,Integer> ham)
+	{
+		List<Word> words = new ArrayList<Word>();
+		Iterator<String> it = spam.keySet().iterator();
+		while(it.hasNext()){
+			//create the word
+			String element = it.next();
+			Word word = new Word(element);
+			word.setSpamFrequency(spam.get(element));
+			int hamFreq = ham.get(element) == null ? 0 : ham.get(element);
+			word.setHamFrequency(hamFreq);
+			ham.remove(element);
+			words.add(word);
+		}
+		
+		Iterator<String> hamIterator = ham.keySet().iterator();
+		while(it.hasNext()){
+			String element = it.next();
+			Word word = new Word(element,0,ham.get(element));
+			words.add(word);
+		}
+		
+		return words;
+	
 	}
 }
