@@ -26,8 +26,9 @@ public class WordUtilities {
 	public static void SaveWords(List<Word> words){
 		try {
 			 
+			System.out.println("starting");
 			String content = generateWordString(words);
-			
+			System.out.println("ending");
  
 			File file = new File("words/model.txt");
  
@@ -61,7 +62,6 @@ public class WordUtilities {
 		int counter = 1;
 		while(it.hasNext()){
 			Word w = it.next();
-			System.out.println(counter + " / " + words.size());
 			
 			double spamSmooth = w.getSpamSmooth() / (totalSpam + (0.5 * words.size()));
 			double hamSmooth = w.getHamSmooth() / (totalHam + (0.5 * words.size()));

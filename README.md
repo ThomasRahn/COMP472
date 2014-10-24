@@ -16,6 +16,6 @@ Our assumptions:
 		. , + = ( ) [ ] < > " _ ! @ # $ % ^ & * / \ { } | : ; ` ~
 		
 	Invalid words
-		Any word with a numerical value.
+		Any word with a numerical character.
 		Any word with 3 or less characters.
 		 
