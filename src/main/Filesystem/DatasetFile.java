@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Alan Ly on 16-Oct-2014.
- * 			  Thomas Rahn
+ * @author Alan Ly
+ * @author Thomas Rahn
  */
 public class DatasetFile {
 	private File file;
@@ -31,7 +31,7 @@ public class DatasetFile {
 	/**
 	 * @param file
 	 *            A `java.io.File` instance.
-	 * @param Map
+	 * @param words
 	 *            the words and the frequency in the file.
 	 * @throws Exception
 	 *             Thrown when the specified instance does not reference an
@@ -47,28 +47,41 @@ public class DatasetFile {
 	}
 
 	public Map<String, Integer> getWords() throws IOException {
-		String content = new String(Files.readAllBytes(getPath()));
+		// Read the entirety of our file into a single String instance.
+		String content = new String(Files.readAllBytes(this.getPath()));
 
-		// remove punctuation
-		content = content.replaceAll("[\\[\\]\".,;:\\(\\)=+]", "");
+		/**
+		 * Filters out invalid characters.
+		 *
+		 * Find,
+		 * - Characters that are **not** (alphanumerical, dashes, spaces, or single-quotes)
+		 * - Words with numbers within them.
+		 * - Words less than 3 characters in length.
+		 * and replace with a single space character.
+		 */
+		content = content.replaceAll("([^a-zA-Z0-9\\- '])|(\\w*\\d\\w*)|(\\b\\w{1,3}\\b)", " ");
 
-		// remove all words with a number in it.
-		content = content.replaceAll("([a-z]*\\d+[a-z]*)", "");
+		/**
+		 * Split out words in string by whitespace runs.
+		 */
+		String[] words = content.split("\\s+");
 
-		// remove all words with 3 characters or less.
-		content = content.replaceAll("\\b\\w{1,3}\\b", "");
+		/**
+		 * Iterate over our `words` array and update our counters.
+		 */
+		for (String word : words) {
+			if (word.isEmpty()) continue;
 
-		String[] words = content.split(" ");
-		for (int i = 0; i < words.length; i++) {
-			String word = words[i].trim().toLowerCase();
+			// Normalize the string: make it lowercase
+			word = word.toLowerCase();
 
-			// if the word does not exist in the map, the count is 0
-			int count = this.wordsAndCounts.get(word) == null ? 0 : this.wordsAndCounts.get(word);
+			// Get the current count of this word; if it's new then 1.
+			Integer currentCount = this.wordsAndCounts.get(word);
+			int updatedCount = (currentCount == null) ? 1 : currentCount + 1;
 
-			// increase the number of total words
-			numberOfWords++;
-
-			this.wordsAndCounts.put(word, count + 1);
+			// Update our counters
+			this.numberOfWords++;
+			this.wordsAndCounts.put(word, updatedCount);
 		}
 
 		return this.wordsAndCounts;
@@ -93,7 +106,7 @@ public class DatasetFile {
 	}
 
 	/**
-	 * @param Map
+	 * @param words
 	 *            the map that holds the word with its frequency in the file.
 	 */
 	private void setMap(Map<String, Integer> words) {
