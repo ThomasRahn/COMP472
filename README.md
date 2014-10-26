@@ -19,3 +19,7 @@ Our assumptions:
 		Any word with a numerical character.
 		Any word with 3 or less characters.
 		 
+		 
+
+Thomas Rahn 6286852
+Alan ly 

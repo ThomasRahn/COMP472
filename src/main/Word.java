@@ -11,7 +11,7 @@ public class Word {
 	private String word;
 	private int spamFrequency;
 	private int hamFrequency;
-	private static double SMOOTHING_FACTOR = 0.5;
+	private final double SMOOTHING_FACTOR = 0.5;
 
 	public Word(String word) {
 		this(word, 0, 0);

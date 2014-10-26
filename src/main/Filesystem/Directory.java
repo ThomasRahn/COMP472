@@ -5,6 +5,7 @@ import java.io.FileFilter;
 
 /**
  * Created by Alan Ly on 16-Oct-2014.
+ * 			  Thomas Rahn
  */
 public class Directory
 {

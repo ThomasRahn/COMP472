@@ -1,9 +1,7 @@
 package main;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +12,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		System.out.println("hi");
-		// Read all files in ham
+		
 		int spamTotal = 0;
 		Map<String, Integer> spamWords = new HashMap<String, Integer>();
 		
@@ -24,6 +22,7 @@ public class Main {
 		try {
 			// SPAM SECTION
 			Directory spamDirectory = new Directory("words/spam_2");
+			
 			File[] spamFiles = spamDirectory.getFiles();
 			
 			System.out.println("Reading spam files");
@@ -44,10 +43,7 @@ public class Main {
 				hamTotal += dataset.GetNumberOfWords();
 			}
 
-		
-
-		} catch (Exception e) {
-
+		}catch (Exception e){
 			e.printStackTrace();
 		}
 

@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * Created by Alan Ly on 16-Oct-2014.
+ * 			  Thomas Rahn
  */
 public class DatasetFile {
 	private File file;
@@ -62,8 +63,7 @@ public class DatasetFile {
 			String word = words[i].trim().toLowerCase();
 
 			// if the word does not exist in the map, the count is 0
-			int count = this.wordsAndCounts.get(word) == null ? 0
-					: this.wordsAndCounts.get(word);
+			int count = this.wordsAndCounts.get(word) == null ? 0 : this.wordsAndCounts.get(word);
 
 			// increase the number of total words
 			numberOfWords++;
