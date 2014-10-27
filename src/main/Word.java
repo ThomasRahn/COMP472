@@ -6,7 +6,7 @@ package main;
  * This class handles all the values for a particular word.
  * 
  */
-public class Word {
+public class Word implements Comparable<Word> {
 
 	private String word;
 	private int spamFrequency;
@@ -71,5 +71,10 @@ public class Word {
 	 */
 	public double getSpamSmooth() {
 		return spamFrequency + SMOOTHING_FACTOR;
+	}
+
+	@Override
+	public int compareTo(Word word) {
+		return this.word.compareTo(word.getWord());
 	}
 }
