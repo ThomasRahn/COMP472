@@ -9,9 +9,9 @@ Faculty's Expectations of Originality"
 
 ### Process:
 
-This program will read in all 1000 Spam files and 1000 ham files one by one and extra the valid words from them. It will filter out all punctuation/special characters, words with a numerical character in them, as well as any word with less then 3 characters. It will then add the words to a HashMap and create a List of "Words" with that information.
+This program will read in all 1000 Spam files and 1000 ham files one-by-one. Then, it will filter out all punctuation and special characters (as defined below), words with numerical characters in them, as well as any word less than a length of 3. It will then extract the valid word and add them to a Map to keep track of the number of occurances, then create a List of "words" with that information.
 
-Once the list of words have been created it will perform the calculations and appropriate smoothing and store it in model.txt with the format specified by the project specifications.
+Once the list of words have been created it will perform the calculations and appropriate smoothing and store it in a `model.txt` file with the format specified by the project specifications.
 
 ### Our assumptions:
 
