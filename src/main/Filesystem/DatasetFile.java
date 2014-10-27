@@ -51,15 +51,31 @@ public class DatasetFile {
 		String content = new String(Files.readAllBytes(this.getPath()));
 
 		/**
+		 * Handle replies.
+		 *
+		 * When a user replies to another email, the original email is included
+		 * and quoted with angle brackets '>'. This regex operation takes care
+		 * of that and ensure that words aren't broken.
+		 */
+		content = content.replaceAll("(\\n*> )", "");
+
+		/**
 		 * Filters out invalid characters.
 		 *
 		 * Find,
-		 * - Characters that are **not** (alphanumerical, dashes, spaces, or single-quotes)
+		 * - Characters that are **not** (alphanumerical, spaces, or apostrophes)
 		 * - Words with numbers within them.
 		 * - Words less than 3 characters in length.
 		 * and replace with a single space character.
 		 */
-		content = content.replaceAll("([^a-zA-Z0-9\\- '])|(\\w*\\d\\w*)|(\\b\\w{1,3}\\b)", " ");
+		content = content.replaceAll("([^a-zA-Z0-9 '])|(\\w*\\d\\w*)|(\\b\\w{1,3}\\b)", " ");
+
+		/**
+		 * Final filtering.
+		 *
+		 * This regex operation filters out any remaining issues with apostrophes.
+		 */
+		content = content.replaceAll("(\\s'+)|('+(?=\\s))|('{2,})", " ");
 
 		/**
 		 * Split out words in string by whitespace runs.
