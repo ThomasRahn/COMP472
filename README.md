@@ -2,6 +2,9 @@
 
 Thomas Rahn (6286852), Alan Ly (6293484)
 
+"We certify that this submission is the original work of members of the group and meets the
+Faculty's Expectations of Originality"
+
 ## Deliverable #1
 
 ### Process:
