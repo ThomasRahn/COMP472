@@ -14,7 +14,7 @@ Once the list of words have been created it will perform the calculations and ap
 
 We removed all punctuation and special characters which are:
 
-    . , + = ( ) [ ] < > " _ ! @ # $ % ^ & * / \ { } | : ; ` ~
+    . , + = ( ) [ ] < > " _ ! @ # $ % ^ & * / \ { } | : ; ` ~ -
 		
 Invalid words:
 
