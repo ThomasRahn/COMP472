@@ -14,7 +14,7 @@ Open up the project in your favourite IDE-flavour, then hit the green play butto
 
 This program will read in all 1000 Spam files and 1000 ham files one-by-one. Then, it will filter out all punctuation and special characters (as defined below), words with numerical characters in them, as well as any word less than a length of 3. It will then extract the valid word and add them to a Map to keep track of the number of occurances, then create a List of "words" with that information.
 
-Once the list of words have been created it will perform the calculations and appropriate smoothing and store it in a `model.txt` file with the format specified by the project specifications.
+Once the list of words has been created it will perform the calculations, apply the appropriate smoothing and store it in a `model.txt` file with the format specified by the project specifications.
 
 ### Our assumptions:
 
