@@ -7,8 +7,8 @@ Faculty's Expectations of Originality"
 
 ## Deliverable #1
 
-## How to run:
-This is a java project and is to be run like any other java program. the main method is located in Main.java.
+### How to run:
+Open up the project in your favourite IDE-flavour, then hit the green play button to run `Main.java`.
 
 ### Process:
 
