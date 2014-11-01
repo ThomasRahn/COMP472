@@ -35,8 +35,9 @@ public class WordUtilities {
 			System.out.println("Done.");
 
 			// Generate a string listing of our words.
-			String output = generateWordString(words);
+			StringBuffer output = generateWordString(words);
 
+			
 			File outputFile = new File(outputPath);
 			System.out.println("Using output file \"" + outputFile.getAbsolutePath() + "\".");
 
@@ -52,7 +53,7 @@ public class WordUtilities {
 			BufferedWriter bw = new BufferedWriter(fw);
 
 			System.out.print("Writing output file...");
-			bw.write(output);
+			bw.write(output.toString());
 			bw.close();
 			System.out.println("Done.");
 
@@ -73,7 +74,7 @@ public class WordUtilities {
 	 * 
 	 * @return String the string generated from a list of words
 	 */
-	private static String generateWordString(List<Word> words) {
+	private static StringBuffer generateWordString(List<Word> words) {
 		String output = "";
 		int wordCount = words.size();
 		int index = 0;
@@ -81,11 +82,12 @@ public class WordUtilities {
 
 		System.out.print("Generating output.");
 
+		StringBuffer buffer = new StringBuffer();
 		for (Word word : words) {
 			// Determine the smoothed values.
 			double spamSmooth = word.getSpamSmooth() / (totalSpam + (0.5 * words.size()));
 			double hamSmooth = word.getHamSmooth() / (totalHam + (0.5 * words.size()));
-
+			output = "";
 			// Create our output string
 			output += ++index + DELIMETER;
 			output += word.getWord() + DELIMETER;
@@ -94,6 +96,8 @@ public class WordUtilities {
 			output += word.getSpamFrequency() + DELIMETER;
 			output += spamSmooth + "\n";
 
+			
+			buffer.append(output);
 			double currentProgress = ((double)index / wordCount) * 100;
 			if ((currentProgress - progress) >= 1.0)
 			{
@@ -104,7 +108,7 @@ public class WordUtilities {
 
 		System.out.println("Done.");
 
-		return output;
+		return buffer;
 	}
 	/**
 	 * Set the total number of spam words and total number of ham words
