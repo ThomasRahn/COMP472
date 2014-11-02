@@ -94,7 +94,7 @@ public class WordUtilities {
 			output += word.getHamFrequency() + DELIMETER;
 			output += hamSmooth + DELIMETER;
 			output += word.getSpamFrequency() + DELIMETER;
-			output += spamSmooth + "\n";
+			output += spamSmooth + String.format("%n");
 
 			
 			buffer.append(output);
