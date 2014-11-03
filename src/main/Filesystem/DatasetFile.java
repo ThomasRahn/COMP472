@@ -26,6 +26,7 @@ public class DatasetFile {
 	 */
 	public DatasetFile(File file) throws Exception {
 		this.setFileInstance(file);
+		this.setMap(null);
 	}
 
 	/**
