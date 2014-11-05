@@ -16,7 +16,7 @@ public class Main {
 	private static String HAM_DIRECTORY_PATH  = "words/easy_ham_2";
 	private static String MODEL_FILE_PATH     = "words/model.txt";
 	private static String RESULT_FILE_PATH 	  = "words/results.txt";
-	private static String CLASSIFY_FILE_PATH 	  = "words/classify";
+	private static String CLASSIFY_FILE_PATH  = "words/classify";
 	
 
 	public static void main(String[] args) {

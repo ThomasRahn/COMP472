@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,11 @@ import main.Filesystem.Directory;
  */
 public class Results {
 	private static String DELIMETER = "   ";
+
+	private static String ANALYSIS_FILE_PATH = "words/analysis.txt";
+	
+	private final static String HAM = "Ham";
+	private final static String SPAM = "Spam";
 	
 	private static int totalSpam = 0;
 	private static int totalHam = 0;
@@ -28,13 +34,11 @@ public class Results {
 	
 	private static double totalSpamSmooth;
 	private static double totalHamSmooth;
+	
 	private static List<Word> words;
 	private static int counter = 0;
 	
-	private static int debugHam = 0;
-	private static int debugSpam = 0;
-	
-	
+	private static Map<String,String> analysis;
 	
 	/**
 	 * This method will write the results of each file that needs to be classified.
@@ -46,6 +50,8 @@ public class Results {
 	 */
 	public static void SaveResults(String outputPath, String classifyDirectory, List<Word> words){
 		LocalTime processStartTime = LocalTime.now();
+		analysis = new HashMap<String,String>();
+		
 		Results.words = words;
 		try{
 			StringBuffer output = generateResultsString(classifyDirectory);
@@ -76,8 +82,9 @@ public class Results {
 		LocalTime processEndTime = LocalTime.now();
 		Duration processDuration = Duration.between(processStartTime, processEndTime);
 		
-		System.out.println("File Output Duration: "+processDuration.getSeconds()+" sec.");
-		System.out.println("Ham Files: " + debugHam + " SpamFiles: " + debugSpam);
+		System.out.println("Results Output Duration: "+processDuration.getSeconds()+" sec.");
+		
+		CreateAnalysisFile();
 	}
 
 	/**
@@ -97,23 +104,24 @@ public class Results {
 		
 		File[] spamFiles = dirSpam.getFiles();
 		
-		buffer = classifyDirectory(buffer, spamFiles);
+		buffer = classifyDirectory(buffer, spamFiles, SPAM);
 		
 		Directory dirHam = new Directory(classifyDirectory + "/" + "ham");
 		
 		File[] hamFiles = dirHam.getFiles();
-		buffer = classifyDirectory(buffer, hamFiles);
+		buffer = classifyDirectory(buffer, hamFiles, HAM);
 		
 		return buffer;
 	}
 
-	private static StringBuffer classifyDirectory(StringBuffer buffer, File[] files) throws Exception, IOException {
+	private static StringBuffer classifyDirectory(StringBuffer buffer, File[] files, String correct) throws Exception, IOException {
 		for(int i = 0; i < files.length; i++){
 			DatasetFile dataset = new DatasetFile(files[i]);
 		
 			//get the words from the file
 			Map<String,Integer> wordMap = dataset.getWords();
 			Iterator<String> it = wordMap.keySet().iterator();
+			
 			//Initial scores
 			double hamScore = probHam;
 			double spamScore = probSpam;
@@ -121,6 +129,7 @@ public class Results {
 			//Loop through all words
 			while(it.hasNext()){
 				String word = it.next();
+				
 				//get the word instance from the list
 				Word wordInstance = getWordInstance(words, word);
 				
@@ -132,18 +141,24 @@ public class Results {
 				}
 			}
 			
-			String classifier = (hamScore > spamScore) ? "Ham" : "Spam";
+			//Determine if it is ham or spam
+			String classifier = "";
 			
-			if(classifier == "Ham"){
-				debugHam++;
-			}else{
-				debugSpam++;
+			
+			if (hamScore > spamScore){
+				classifier = HAM;
+				analysis.put(files[i].getName(), HAM + ";" + correct); 
+			} else {
+				classifier = SPAM;
+				analysis.put(files[i].getName(), SPAM + ";" + correct); 
 			}
+
+			
 			String output = counter + DELIMETER 
 					+ files[i].getName() + DELIMETER 
 					+ classifier + DELIMETER 
 					+ hamScore + DELIMETER 
-					+ spamScore + "\n";  
+					+ spamScore + String.format("%n");;  
 			
 			//append line to buffer
 			buffer.append(output);
@@ -193,5 +208,78 @@ public class Results {
 		}
 	}
 	
+
+	private static void CreateAnalysisFile(){
+		LocalTime processStartTime = LocalTime.now();
+		try{
+			StringBuffer output = new StringBuffer();
+			
+			
+			//Iterate through all the files
+			Iterator<String> it = analysis.keySet().iterator();
+			int correct = 0;
+			int iterator = 0;
+			while(it.hasNext()){
+				//get the filename
+				String filename = it.next();
+				
+				
+				String[] response = analysis.get(filename).split(";");
+				
+				//Get determined and actual values.
+				String determinedAnswer = response[0];
+				String actual = response[1];
+				
+				boolean isCorrect = determinedAnswer.equals(actual);
+				String line = iterator + DELIMETER 
+						+ filename + DELIMETER 
+						+ determinedAnswer + DELIMETER
+						+ actual + DELIMETER
+						+ isCorrect + String.format("%n");
+				
+				if(isCorrect){
+					correct++;
+				}
+				output.append(line);
+				iterator++;
+			}
+			
+			//last 3 lines of output file as specified by the deliverable 2 specifications
+			output.append("Correct Classifications: " + correct + String.format("%n"));
+			output.append("Correct Accuracy: " + correct/ (iterator * 1.0) + String.format("%n"));
+			
+			//Confusion matrix here.
+			
+			
+			
+			
+			File outputFile = new File(ANALYSIS_FILE_PATH);
+			System.out.println("Using output file \"" + outputFile.getAbsolutePath() + "\".");
+	
+			// Create a non-existing file.
+			if (! outputFile.exists()) {
+				System.out.print("File does not exist; creating...");
+				outputFile.createNewFile();
+				System.out.println("Done.");
+			}
+				
+			// Create the writer instances,
+			FileWriter fw = new FileWriter(outputFile.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+	
+			
+			System.out.print("Writing output file...");
+			bw.write(output.toString());
+			bw.close();
+			System.out.println("Done.");
+		}catch(Exception e){
+			System.out.println("Error: " + e.getMessage());
+		}
+		
+		LocalTime processEndTime = LocalTime.now();
+		Duration processDuration = Duration.between(processStartTime, processEndTime);
+		
+		System.out.println("Analysis Output Duration: "+processDuration.getSeconds()+" sec.");
+	}
 	
 }
