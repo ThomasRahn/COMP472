@@ -246,7 +246,8 @@ public class Results {
 			
 			//last 3 lines of output file as specified by the deliverable 2 specifications
 			output.append("Correct Classifications: " + correct + String.format("%n"));
-			output.append("Correct Accuracy: " + correct/ (iterator * 1.0) + String.format("%n"));
+			double accuracy = (correct/ (iterator * 1.0)) * 100;
+			output.append("Correct Accuracy: " + accuracy + String.format("%n"));
 			
 			//Confusion matrix here.
 			

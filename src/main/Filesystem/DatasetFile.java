@@ -69,14 +69,14 @@ public class DatasetFile {
 		 * - Words less than 3 characters in length.
 		 * and replace with a single space character.
 		 */
-		content = content.replaceAll("([^a-zA-Z0-9 '])|(\\w*\\d\\w*)|(\\b\\w{1,3}\\b)", " ");
+		content = content.replaceAll("([^a-zA-Z0-9 '])|(\\w*\\d\\w*)", " ");
 
 		/**
 		 * Final filtering.
 		 *
 		 * This regex operation filters out any remaining issues with apostrophes.
 		 */
-		content = content.replaceAll("(\\s'+)|('+(?=\\s))|('{2,})", " ");
+		//content = content.replaceAll("(\\s'+)|('+(?=\\s))|('{2,})", " ");
 
 		/**
 		 * Split out words in string by whitespace runs.
