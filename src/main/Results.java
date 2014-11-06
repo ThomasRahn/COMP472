@@ -219,6 +219,11 @@ public class Results {
 			Iterator<String> it = analysis.keySet().iterator();
 			int correct = 0;
 			int iterator = 0;
+			
+			int hamCor = 0;
+			int hamIn = 0;
+			int spamCor = 0;
+			int spamIn = 0;
 			while(it.hasNext()){
 				//get the filename
 				String filename = it.next();
@@ -237,6 +242,20 @@ public class Results {
 						+ actual + DELIMETER
 						+ isCorrect + String.format("%n");
 				
+				if(actual.equals(HAM)){
+					if(isCorrect){
+						hamCor++;
+					}else{
+						hamIn++;
+					}
+				}
+				if(actual.equals(SPAM)){
+					if(isCorrect){
+						spamCor++;
+					}else{
+						spamIn++;
+					}
+				}
 				if(isCorrect){
 					correct++;
 				}
@@ -250,9 +269,12 @@ public class Results {
 			output.append("Correct Accuracy: " + accuracy + String.format("%n"));
 			
 			//Confusion matrix here.
+			String matrix = "\t\t Spam \t Ham \n";
+			matrix += "Spam \t" + spamCor + "\t\t" + spamIn + "\n";
+			matrix += "Ham \t" +hamIn + "\t\t" + hamCor + "\n";
+			System.out.println(matrix);
 			
-			
-			
+			output.append(matrix);
 			
 			File outputFile = new File(ANALYSIS_FILE_PATH);
 			System.out.println("Using output file \"" + outputFile.getAbsolutePath() + "\".");
