@@ -5,7 +5,7 @@ Thomas Rahn (6286852), Alan Ly (6293484)
 "We certify that this submission is the original work of members of the group and meets the
 Faculty's Expectations of Originality"
 
-## Deliverable #1
+## Deliverable #2
 
 ### How to run:
 Open up the project in your favourite IDE-flavour, then hit the green play button to run `Main.java`.
@@ -25,4 +25,7 @@ We removed all punctuation and special characters which are:
 Invalid words:
 
 - Any word with a numerical character.
+
+We have removed this rule for deliverable #2
+
 - Any word with 3 or less characters.
