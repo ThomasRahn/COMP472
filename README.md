@@ -44,6 +44,6 @@ Invalid words:
 
 - Any word with a numerical character.
 
-We have removed this rule for deliverable #2
+We have removed this rule for deliverable #2 to incease the accuracy of our classifiy.
 
 - Any word with 3 or less characters.
