@@ -17,6 +17,7 @@ This program will read in all 1000 Spam files and 1000 ham files one-by-one. The
 Once all of the words have been stored in the list, we start to classify 400 Spam files, and 400 Ham files. We read each file one-by-one, and perform the same operations as the previous 2000 files. (Filtering words etc...) For each word in the files we calculate the score and with this score we will be able to classify whether the file is Spam or Ham. With this information we then create two txt files. 
 
 The first file "Results.txt" contains:
+
 	1) Line counter
 	2) File name
 	3) Our classification (Spam or Ham)
